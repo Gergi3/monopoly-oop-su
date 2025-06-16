@@ -1,22 +1,314 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="MathHelpers.cpp">
+      <Filter>Utils\MathHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="StreamHelpers.cpp">
+      <Filter>Utils\StreamHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHelpers.cpp">
+      <Filter>Utils\StringHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Data Structures\String</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>Core\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Data\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bank.cpp">
+      <Filter>Data\Bank</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Data\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="CardDeck.cpp">
+      <Filter>Data\CardDeck</Filter>
+    </ClCompile>
+    <ClCompile Include="Mortgage.cpp">
+      <Filter>Data\Mortgage</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>Data\Fields\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>Data\Fields\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="Trade.cpp">
+      <Filter>Data\Trade</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFactory.cpp">
+      <Filter>Factories\PlayerFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldFactory.cpp">
+      <Filter>Factories\FieldFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Core\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Die.cpp">
+      <Filter>Data\Dice</Filter>
+    </ClCompile>
+    <ClCompile Include="CardField.cpp">
+      <Filter>Data\Fields\CardField</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Data\Cards\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MovePositionCard.cpp">
+      <Filter>Data\Cards\MovePositionCard</Filter>
+    </ClCompile>
+    <ClCompile Include="PaymentCard.cpp">
+      <Filter>Data\Cards\PaymentCard</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Data Structures">
+      <UniqueIdentifier>{15c841fd-ba35-441c-be43-f7c950d68b45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a0a4d3a8-871f-4213-adff-74179e9fbfb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Utils\MathHelpers">
+      <UniqueIdentifier>{6f8ff99c-17e3-4989-bf64-aee9a4fbe911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\StreamHelpers">
+      <UniqueIdentifier>{fda67475-f54a-4d70-beb1-310764f07c30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\StringHelpers">
+      <UniqueIdentifier>{64c8bc9c-de87-461f-9e14-9c0a2f23ec9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data Structures\String">
+      <UniqueIdentifier>{ca98fd6e-a36c-4d47-b49f-9a31a9e43028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data Structures\Vector">
+      <UniqueIdentifier>{6afb4122-769e-419e-a9ed-d7144713b76c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{29ff1311-076a-4400-8873-91c21a1e283a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{e66d8f73-956f-4403-b9ca-4096e9da0f81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Player">
+      <UniqueIdentifier>{5b935d39-9a9c-49d2-90f5-506634685ceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Bank">
+      <UniqueIdentifier>{760f4fd1-80b5-4e61-8ebe-108dc0d3951f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Board">
+      <UniqueIdentifier>{6b0e1d70-6981-4ee4-9329-d5a15366fd7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Mortgage">
+      <UniqueIdentifier>{1e4c62cd-92cd-43fb-b126-746a55b501d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields">
+      <UniqueIdentifier>{ae0f4cd8-c2e1-4e3e-b027-2339374cf271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\Base">
+      <UniqueIdentifier>{f0737ad3-01d6-41cf-8baa-5e9061f4f70a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\Property">
+      <UniqueIdentifier>{96bd852c-af6d-407b-bb35-ff28df0b0f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factories">
+      <UniqueIdentifier>{c8106fd5-9c32-43cd-b5fe-b7711fcf5662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Trade">
+      <UniqueIdentifier>{1b46986d-d1ba-490f-bd45-ebba4e5be2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factories\PlayerFactory">
+      <UniqueIdentifier>{867128a3-8d5a-43a9-af0f-23c4d06f4437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factories\FieldFactory">
+      <UniqueIdentifier>{9aba797d-2969-4826-88e8-93b97dd351cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{ebe634db-237a-405d-8605-9b0a96fafff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\GameEngine">
+      <UniqueIdentifier>{20c4f2e2-7805-44e8-bf4f-b7636203d373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Console">
+      <UniqueIdentifier>{e1ba9e3a-e6ad-4ffb-a8c4-493b1889e80f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Renderer">
+      <UniqueIdentifier>{f12157fb-53fb-4a07-a073-e74d23b5354b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{f586ecb6-1041-4247-a124-ed21b584a329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Tile">
+      <UniqueIdentifier>{2ad592ae-6799-4c83-9886-9a475d85fc1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Dice">
+      <UniqueIdentifier>{aea7c2b1-6354-4093-af65-77101b57493e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data Structures\Pair">
+      <UniqueIdentifier>{512fb36d-0a20-4e41-b642-cb0a7999d0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\CardField">
+      <UniqueIdentifier>{61182688-a50a-4f06-8c29-255694c25198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\CardDeck">
+      <UniqueIdentifier>{afe234d3-eeb1-4136-a6ba-bad3113d06d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards">
+      <UniqueIdentifier>{81c76a57-9889-465b-9002-47bedb30b402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\Base">
+      <UniqueIdentifier>{e5423cfd-1035-4493-ac35-fd8376b5e6e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\MovePositionCard">
+      <UniqueIdentifier>{e47fc8ee-f78e-4cae-be51-f81569a59e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\PaymentCard">
+      <UniqueIdentifier>{78977dab-ff94-4f4b-a4e7-90c9e9c0f2cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="monopoly-oop-su.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="MathHelpers.h">
+      <Filter>Utils\MathHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamHelpers.h">
+      <Filter>Utils\StreamHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelpers.h">
+      <Filter>Utils\StringHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Data Structures\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.hpp">
+      <Filter>Data Structures\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Core\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Data\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerValidation.h">
+      <Filter>Data\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Validation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Bank.h">
+      <Filter>Data\Bank</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Data\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="CardDeck.h">
+      <Filter>Data\CardDeck</Filter>
+    </ClInclude>
+    <ClInclude Include="Mortgage.h">
+      <Filter>Data\Mortgage</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>Data\Fields\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Data\Fields\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyValidation.h">
+      <Filter>Data\Fields\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyConstants.h">
+      <Filter>Data\Fields\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerConstants.h">
+      <Filter>Data\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Trade.h">
+      <Filter>Data\Trade</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFactory.h">
+      <Filter>Factories\PlayerFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldFactory.h">
+      <Filter>Factories\FieldFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Typedefs.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BankValidation.h">
+      <Filter>Data\Bank</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardUtilities.h">
+      <Filter>Data\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldType.h">
+      <Filter>Data\Fields\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleConstants.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererConstants.h">
+      <Filter>Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ITileable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorGroup.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Core\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileConstants.h">
+      <Filter>Core\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Die.h">
+      <Filter>Data\Dice</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstants.h">
+      <Filter>Core\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Pair.hpp">
+      <Filter>Data Structures\Pair</Filter>
+    </ClInclude>
+    <ClInclude Include="CardField.h">
+      <Filter>Data\Fields\CardField</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Data\Cards\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePositionCard.h">
+      <Filter>Data\Cards\MovePositionCard</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePositionType.h">
+      <Filter>Data\Cards\MovePositionCard</Filter>
+    </ClInclude>
+    <ClInclude Include="PaymentCard.h">
+      <Filter>Data\Cards\PaymentCard</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="monopoly-oop-su.rc" />
   </ItemGroup>
 </Project>

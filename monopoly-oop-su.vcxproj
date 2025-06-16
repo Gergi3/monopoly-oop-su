@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +128,79 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="monopoly-oop-su.cpp" />
+    <ClCompile Include="Bank.cpp" />
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardDeck.cpp" />
+    <ClCompile Include="CardField.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Die.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FieldFactory.cpp" />
+    <ClCompile Include="MathHelpers.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Mortgage.cpp" />
+    <ClCompile Include="MovePositionCard.cpp" />
+    <ClCompile Include="PaymentCard.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerFactory.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Property.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="StreamHelpers.cpp" />
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="StringHelpers.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Trade.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bank.h" />
+    <ClInclude Include="BankValidation.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardUtilities.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="CardDeck.h" />
+    <ClInclude Include="CardField.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="ColorGroup.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleConstants.h" />
+    <ClInclude Include="Die.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="FieldFactory.h" />
+    <ClInclude Include="FieldType.h" />
+    <ClInclude Include="GameEngineConstants.h" />
+    <ClInclude Include="ITileable.h" />
+    <ClInclude Include="Key.h" />
+    <ClInclude Include="MathHelpers.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Mortgage.h" />
+    <ClInclude Include="MovePositionCard.h" />
+    <ClInclude Include="MovePositionType.h" />
+    <ClInclude Include="Pair.hpp" />
+    <ClInclude Include="PaymentCard.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerConstants.h" />
+    <ClInclude Include="PlayerFactory.h" />
+    <ClInclude Include="PlayerValidation.h" />
+    <ClInclude Include="Property.h" />
+    <ClInclude Include="PropertyConstants.h" />
+    <ClInclude Include="PropertyValidation.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererConstants.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="StreamHelpers.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="StringHelpers.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileConstants.h" />
+    <ClInclude Include="Trade.h" />
+    <ClInclude Include="Typedefs.h" />
+    <ClInclude Include="Validation.h" />
+    <ClInclude Include="Vector.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="monopoly-oop-su.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
