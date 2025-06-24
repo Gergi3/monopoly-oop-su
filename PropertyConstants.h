@@ -2,8 +2,8 @@
 
 namespace PropertyConstants
 {
-	constexpr const char* NO_OWNER_ERR = "Property has no owner.";
-	constexpr const char* ALREADY_OWNED_ERR = "Property is already owned.";
+	constexpr const char* NO_PROP_OWNER_ERR = "Property has no owner.";
+	constexpr const char* ALREADY_OWNED_PROP_ERR = "Property is already owned.";
 	constexpr const char* NOT_OWNED_ERR = "Property is not owned by the player.";
 	constexpr const char* OWNED_ERR = "Property is already owned by the player.";
 

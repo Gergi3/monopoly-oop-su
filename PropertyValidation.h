@@ -38,23 +38,5 @@ namespace PropertyValidation
 		return Validation::isInRange(housePrice, MIN_HOUSE_PRICE, MAX_HOUSE_PRICE);
 	}
 
-	constexpr int MIN_PRICE = 0;
-	constexpr int MAX_PRICE = 500;
-	const String PRICE_ERR = (String)"Property price must be between " + MIN_PRICE
-		+ " and " + MAX_PRICE + '.';
 
-	inline bool isValidPrice(int price)
-	{
-		return Validation::isInRange(price, MIN_HOUSE_PRICE, MAX_HOUSE_PRICE);
-	}
-
-	constexpr size_t MIN_NAME_LEN = 4;
-	constexpr size_t MAX_NAME_LEN = 30;
-	const String NAME_ERR = (String)"Property name must be between " + MIN_NAME_LEN
-		+ " AND " + MAX_NAME_LEN + '.';
-
-	inline bool isValidName(String name)
-	{
-		return Validation::isInRange(name.getLen(), MIN_NAME_LEN, MAX_NAME_LEN);
-	}
 }

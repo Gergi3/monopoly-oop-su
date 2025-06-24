@@ -1,9 +1,9 @@
 #pragma once
 #include "Tile.h"
 
-class ITileable
+class Tileable
 {
 public:
-	virtual ~ITileable() = default;
+	virtual ~Tileable() = default;
 	virtual Tile toTile() const = 0;
 };

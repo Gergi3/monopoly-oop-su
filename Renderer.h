@@ -1,11 +1,11 @@
 #pragma once
-#include "Board.h"
-#include "Color.h"
 #include "Console.h"
-#include "Die.h"
-#include "GameEngineConstants.h"
-#include "ITileable.h"
 #include "Tile.h"
+#include "Tileable.h"
+
+class Player;
+class Die;
+class Board;
 
 class Renderer
 {
@@ -16,7 +16,7 @@ class Renderer
 public:
 	Renderer(Console& console);
 
-	void draw(int x, int y, const ITileable& tileable) const;
+	void draw(int x, int y, const Tileable& tileable) const;
 	void drawTile(int x, int y, const Tile& tile)  const;
 	void drawBoard(const Board& board, const Vector<Player*>& players) const;
 	void drawDice(int x, int y, const Vector<Die>& dice) const;

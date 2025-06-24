@@ -1,7 +1,14 @@
 #include "BoardUtilities.h"
+#include "Card.h"
 #include "MovePositionCard.h"
+#include "MovePositionType.h"
+#include "Player.h"
+#include "String.h"
+#include <stdexcept>
 
-MovePositionCard::MovePositionCard(const String& name, MovePositionType type, unsigned spaces) : Card(name), type(type), spaces(spaces)
+
+MovePositionCard::MovePositionCard(const String& name, MovePositionType type, size_t spaces) 
+	: Card(name), type(type), spaces(spaces)
 {}
 
 void MovePositionCard::applyEffect(Player& player) const
@@ -31,4 +38,9 @@ void MovePositionCard::applyEffect(Player& player) const
 		default:
 			throw std::logic_error("Invalid card type!");
 	}
+}
+
+Card* MovePositionCard::clone() const
+{
+	return new MovePositionCard(*this);
 }

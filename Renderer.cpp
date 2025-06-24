@@ -4,15 +4,14 @@
 #include "ConsoleConstants.h"
 #include "Die.h"
 #include "Field.h"
-#include "GameEngineConstants.h"
-#include "ITileable.h"
 #include "Player.h"
 #include "Renderer.h"
 #include "RendererConstants.h"
 #include "Tile.h"
+#include "Tileable.h"
 #include "TileConstants.h"
+#include "Typedefs.h"
 #include "Vector.hpp"
-#include <iostream>
 
 using namespace RendererConstants;
 
@@ -24,7 +23,7 @@ void Renderer::resetPen() const
 Renderer::Renderer(Console& console) : console(console)
 {}
 
-void Renderer::draw(int x, int y, const ITileable& tileable) const
+void Renderer::draw(int x, int y, const Tileable& tileable) const
 {
 	drawTile(x, y, tileable.toTile());
 }
@@ -195,7 +194,7 @@ void Renderer::drawNumberPromptMenu(unsigned num, const String& title, Color col
 
 	console.displayAt(x, y++, topBorder);
 	console.displayAt(x, y++, sideBorder + String(padding, ' ') + sideBorder);
-	
+
 	if (!title.getLen() == 0)
 	{
 		String l1 = sideBorder + title.paddedRight(padding) + sideBorder;
@@ -207,7 +206,7 @@ void Renderer::drawNumberPromptMenu(unsigned num, const String& title, Color col
 	String numPadded = numStr.paddedRight(padding);
 	console.displayAt(x, y, sideBorder);
 	console.setColor(color);
-	console.displayAt(x + sideBorder.getLen(), y, numPadded );
+	console.displayAt(x + sideBorder.getLen(), y, numPadded);
 	console.setColor(ConsoleConstants::DEFAULT_COLOR);
 	console.displayAt(x + sideBorder.getLen() + numPadded.getLen(), y++, sideBorder);
 
@@ -305,9 +304,9 @@ void Renderer::drawPlayers(const Vector<Player*>& players) const
 	int x = tileX + 1;
 	for (size_t i = 0; i < players.getSize(); ++i)
 	{
-		console.setColor(Color::White);
-
 		Player* player = players[i];
+		console.setColor(player->isEliminated() ? Color::Gray : Color::White);
+
 		if (!player)
 		{
 			continue;

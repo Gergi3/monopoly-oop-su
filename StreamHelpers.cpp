@@ -60,7 +60,12 @@ void StreamHelpers::splitNToVector(size_t n, std::stringstream& ss, Vector<Strin
 bool StreamHelpers::fileExists(const String& filename)
 {
     std::ifstream ifs(filename.c_str());
-    bool exists = ifs.is_open();
+    if (!ifs.is_open())
+    {
+        return false;
+    }
+    ifs.peek();
+    bool exists = ifs.good();
     ifs.close();
 
     return exists;

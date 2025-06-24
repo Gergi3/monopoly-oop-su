@@ -26,20 +26,14 @@
     <ClCompile Include="Board.cpp">
       <Filter>Data\Board</Filter>
     </ClCompile>
-    <ClCompile Include="CardDeck.cpp">
-      <Filter>Data\CardDeck</Filter>
-    </ClCompile>
-    <ClCompile Include="Mortgage.cpp">
-      <Filter>Data\Mortgage</Filter>
+    <ClCompile Include="Deck.cpp">
+      <Filter>Data\Deck</Filter>
     </ClCompile>
     <ClCompile Include="Field.cpp">
       <Filter>Data\Fields\Base</Filter>
     </ClCompile>
     <ClCompile Include="Property.cpp">
       <Filter>Data\Fields\Property</Filter>
-    </ClCompile>
-    <ClCompile Include="Trade.cpp">
-      <Filter>Data\Trade</Filter>
     </ClCompile>
     <ClCompile Include="PlayerFactory.cpp">
       <Filter>Factories\PlayerFactory</Filter>
@@ -48,13 +42,13 @@
       <Filter>Factories\FieldFactory</Filter>
     </ClCompile>
     <ClCompile Include="Console.cpp">
-      <Filter>Core\Console</Filter>
+      <Filter>UI\Console</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Core\Renderer</Filter>
+      <Filter>UI\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
-      <Filter>Core\Tile</Filter>
+      <Filter>UI\Tile</Filter>
     </ClCompile>
     <ClCompile Include="Die.cpp">
       <Filter>Data\Dice</Filter>
@@ -70,6 +64,84 @@
     </ClCompile>
     <ClCompile Include="PaymentCard.cpp">
       <Filter>Data\Cards\PaymentCard</Filter>
+    </ClCompile>
+    <ClCompile Include="PaymentCardValidation.h">
+      <Filter>Data\Cards\PaymentCard</Filter>
+    </ClCompile>
+    <ClCompile Include="MovePositionToNearestCard.cpp">
+      <Filter>Data\Cards\MovePositionToNearestCard</Filter>
+    </ClCompile>
+    <ClCompile Include="CombinedCard.cpp">
+      <Filter>Data\Cards\CombinedCard</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandler.cpp">
+      <Filter>Core\CommandHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Core\Commands\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EndTurnCommand.cpp">
+      <Filter>Core\Commands\EndTurn</Filter>
+    </ClCompile>
+    <ClCompile Include="BuyPropertyCommand.cpp">
+      <Filter>Core\Commands\BuyProperty</Filter>
+    </ClCompile>
+    <ClCompile Include="SellPropertyCommand.cpp">
+      <Filter>Core\Commands\SellProperty</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildHouseCommand.cpp">
+      <Filter>Core\Commands\BuildHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="DemolishHouseCommand.cpp">
+      <Filter>Core\Commands\DemolishHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultMenuCommand.cpp">
+      <Filter>Core\Commands\DefaultMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="JailPassCommand.cpp">
+      <Filter>Core\Commands\JailPass</Filter>
+    </ClCompile>
+    <ClCompile Include="JailEscapeMenuCommand.cpp">
+      <Filter>Core\Commands\JailEscapeMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="PayJailFeeCommand.cpp">
+      <Filter>Core\Commands\PayJailFeeCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="OwnedField.cpp">
+      <Filter>Data\Fields\OwnedField</Filter>
+    </ClCompile>
+    <ClCompile Include="PricedField.cpp">
+      <Filter>Data\Fields\PricedField</Filter>
+    </ClCompile>
+    <ClCompile Include="Railroad.cpp">
+      <Filter>Data\Fields\Railroad</Filter>
+    </ClCompile>
+    <ClCompile Include="BuyRailroadCommand.cpp">
+      <Filter>Core\Commands\BuyRailroad</Filter>
+    </ClCompile>
+    <ClCompile Include="SellRailroadCommand.cpp">
+      <Filter>Core\Commands\SellRailroad</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Data\Fields\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="SellUtilityCommand.cpp">
+      <Filter>Core\Commands\SellUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="BuyUtilityCommand.cpp">
+      <Filter>Core\Commands\BuyUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="TextField.cpp">
+      <Filter>Data\Fields\TextField</Filter>
+    </ClCompile>
+    <ClCompile Include="TaxField.cpp">
+      <Filter>Data\Fields\TaxField</Filter>
+    </ClCompile>
+    <ClCompile Include="GiveUpCommand.cpp">
+      <Filter>Core\Commands\GiveUp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,9 +181,6 @@
     <Filter Include="Data\Board">
       <UniqueIdentifier>{6b0e1d70-6981-4ee4-9329-d5a15366fd7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Mortgage">
-      <UniqueIdentifier>{1e4c62cd-92cd-43fb-b126-746a55b501d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Data\Fields">
       <UniqueIdentifier>{ae0f4cd8-c2e1-4e3e-b027-2339374cf271}</UniqueIdentifier>
     </Filter>
@@ -123,9 +192,6 @@
     </Filter>
     <Filter Include="Factories">
       <UniqueIdentifier>{c8106fd5-9c32-43cd-b5fe-b7711fcf5662}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data\Trade">
-      <UniqueIdentifier>{1b46986d-d1ba-490f-bd45-ebba4e5be2c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Factories\PlayerFactory">
       <UniqueIdentifier>{867128a3-8d5a-43a9-af0f-23c4d06f4437}</UniqueIdentifier>
@@ -139,18 +205,6 @@
     <Filter Include="Core\GameEngine">
       <UniqueIdentifier>{20c4f2e2-7805-44e8-bf4f-b7636203d373}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Console">
-      <UniqueIdentifier>{e1ba9e3a-e6ad-4ffb-a8c4-493b1889e80f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Renderer">
-      <UniqueIdentifier>{f12157fb-53fb-4a07-a073-e74d23b5354b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{f586ecb6-1041-4247-a124-ed21b584a329}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Tile">
-      <UniqueIdentifier>{2ad592ae-6799-4c83-9886-9a475d85fc1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Data\Dice">
       <UniqueIdentifier>{aea7c2b1-6354-4093-af65-77101b57493e}</UniqueIdentifier>
     </Filter>
@@ -159,9 +213,6 @@
     </Filter>
     <Filter Include="Data\Fields\CardField">
       <UniqueIdentifier>{61182688-a50a-4f06-8c29-255694c25198}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data\CardDeck">
-      <UniqueIdentifier>{afe234d3-eeb1-4136-a6ba-bad3113d06d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Data\Cards">
       <UniqueIdentifier>{81c76a57-9889-465b-9002-47bedb30b402}</UniqueIdentifier>
@@ -174,6 +225,105 @@
     </Filter>
     <Filter Include="Data\Cards\PaymentCard">
       <UniqueIdentifier>{78977dab-ff94-4f4b-a4e7-90c9e9c0f2cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\MovePositionToNearestCard">
+      <UniqueIdentifier>{bc3c87d7-1a6f-4d09-b27c-399ee0b225c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\CombinedCard">
+      <UniqueIdentifier>{75123f9c-e696-4c2f-a962-8cf6100a379c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Deck">
+      <UniqueIdentifier>{afe234d3-eeb1-4136-a6ba-bad3113d06d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data Structures\Queue">
+      <UniqueIdentifier>{f018ef1c-7ca0-48ad-8bb4-50015d0c77b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands">
+      <UniqueIdentifier>{2398390f-219d-4cdd-82f2-66b0e4aaa47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\Base">
+      <UniqueIdentifier>{512a3bf0-6370-4120-bc61-cb4cc578c8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\EndTurn">
+      <UniqueIdentifier>{4262b8e0-a757-465c-ac3b-b61cef46c149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\BuyProperty">
+      <UniqueIdentifier>{0f6d7bc4-c7a7-42c3-88c0-286b6be6bb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\SellProperty">
+      <UniqueIdentifier>{e3c1f0f6-4c78-4204-8ae3-51732d895479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\BuildHouse">
+      <UniqueIdentifier>{9db157ff-f6e8-4bc1-a63e-8fce9cf98f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\DemolishHouse">
+      <UniqueIdentifier>{3313990b-5b1b-427d-ba3e-3519f670d2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\DefaultMenu">
+      <UniqueIdentifier>{32d52dbd-4c5c-456a-b172-1ad2cf3c6ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\CommandHandler">
+      <UniqueIdentifier>{dd5efd42-26c9-4251-9c45-93c1c3226ca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{85989448-7810-4c5f-89b9-2b412735b742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Renderer">
+      <UniqueIdentifier>{f12157fb-53fb-4a07-a073-e74d23b5354b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Console">
+      <UniqueIdentifier>{e1ba9e3a-e6ad-4ffb-a8c4-493b1889e80f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Tile">
+      <UniqueIdentifier>{2ad592ae-6799-4c83-9886-9a475d85fc1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Menu">
+      <UniqueIdentifier>{1007a6c9-ad24-4e68-aec3-8c771cd11d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\JailPass">
+      <UniqueIdentifier>{101cbbd4-2afb-4f29-81a4-7f47325a9a12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\JailEscapeMenu">
+      <UniqueIdentifier>{145e67ab-8298-4c8f-b02d-794e4430c09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\PayJailFeeCommand">
+      <UniqueIdentifier>{703c82c2-60cd-4eee-84f5-c99628dea3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\OwnedField">
+      <UniqueIdentifier>{eab4d451-f274-4ea9-bf80-91b6218d3104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\PricedField">
+      <UniqueIdentifier>{d19f1ffc-d8a1-45b4-b0c3-05e293f70178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\Railroad">
+      <UniqueIdentifier>{ea8e7912-542e-4d24-a63e-3bb82f04c667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\BuyRailroad">
+      <UniqueIdentifier>{6570a926-f86c-4082-8abe-261f618c2074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\SellRailroad">
+      <UniqueIdentifier>{32e3ddbd-8660-4a02-a953-4fc153953618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\Utility">
+      <UniqueIdentifier>{c92f182c-383f-4cf1-a654-76efbf796188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\SellUtility">
+      <UniqueIdentifier>{4248604b-5058-48de-93c8-e5e61750c7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\BuyUtility">
+      <UniqueIdentifier>{059b7920-f087-477b-b00b-4156f6d21fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Cards\CustomCard">
+      <UniqueIdentifier>{88d42048-2529-4d73-ba4f-b586653278a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\TextField">
+      <UniqueIdentifier>{bc43fa92-e2e5-4294-a07e-ab6a4473d82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Fields\TaxField">
+      <UniqueIdentifier>{a7a23409-51b6-4d3b-8aba-3a5b503987b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Commands\GiveUp">
+      <UniqueIdentifier>{fb062f0c-9406-459a-afba-3b27f75135e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -211,11 +361,8 @@
       <Filter>Data\Board</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="CardDeck.h">
-      <Filter>Data\CardDeck</Filter>
-    </ClInclude>
-    <ClInclude Include="Mortgage.h">
-      <Filter>Data\Mortgage</Filter>
+    <ClInclude Include="Deck.h">
+      <Filter>Data\Deck</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
       <Filter>Data\Fields\Base</Filter>
@@ -231,9 +378,6 @@
     </ClInclude>
     <ClInclude Include="PlayerConstants.h">
       <Filter>Data\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Trade.h">
-      <Filter>Data\Trade</Filter>
     </ClInclude>
     <ClInclude Include="PlayerFactory.h">
       <Filter>Factories\PlayerFactory</Filter>
@@ -254,28 +398,25 @@
       <Filter>Data\Fields\Base</Filter>
     </ClInclude>
     <ClInclude Include="Console.h">
-      <Filter>Core\Console</Filter>
+      <Filter>UI\Console</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Core\Renderer</Filter>
+      <Filter>UI\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleConstants.h">
-      <Filter>Core\Console</Filter>
+      <Filter>UI\Console</Filter>
     </ClInclude>
     <ClInclude Include="RendererConstants.h">
-      <Filter>Core\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="ITileable.h">
-      <Filter>Interfaces</Filter>
+      <Filter>UI\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ColorGroup.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
-      <Filter>Core\Tile</Filter>
+      <Filter>UI\Tile</Filter>
     </ClInclude>
     <ClInclude Include="TileConstants.h">
-      <Filter>Core\Tile</Filter>
+      <Filter>UI\Tile</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Common</Filter>
@@ -284,7 +425,7 @@
       <Filter>Data\Dice</Filter>
     </ClInclude>
     <ClInclude Include="Key.h">
-      <Filter>Core\Console</Filter>
+      <Filter>UI\Console</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineConstants.h">
       <Filter>Core\GameEngine</Filter>
@@ -307,8 +448,124 @@
     <ClInclude Include="PaymentCard.h">
       <Filter>Data\Cards\PaymentCard</Filter>
     </ClInclude>
+    <ClInclude Include="PaymentType.h">
+      <Filter>Data\Cards\PaymentCard</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePositionToNearestCard.h">
+      <Filter>Data\Cards\MovePositionToNearestCard</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePositionToNearestCardValidation.h">
+      <Filter>Data\Cards\MovePositionToNearestCard</Filter>
+    </ClInclude>
+    <ClInclude Include="CombinedCard.h">
+      <Filter>Data\Cards\CombinedCard</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.hpp">
+      <Filter>Data Structures\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandler.h">
+      <Filter>Core\CommandHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Core\Commands\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EndTurnCommand.h">
+      <Filter>Core\Commands\EndTurn</Filter>
+    </ClInclude>
+    <ClInclude Include="BuyPropertyCommand.h">
+      <Filter>Core\Commands\BuyProperty</Filter>
+    </ClInclude>
+    <ClInclude Include="SellPropertyCommand.h">
+      <Filter>Core\Commands\SellProperty</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildHouseCommand.h">
+      <Filter>Core\Commands\BuildHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="DemolishHouseCommand.h">
+      <Filter>Core\Commands\DemolishHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultMenuCommand.h">
+      <Filter>Core\Commands\DefaultMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandlerConstants.h">
+      <Filter>Core\CommandHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Tileable.h">
+      <Filter>UI\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuConstants.h">
+      <Filter>UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="JailPassCommand.h">
+      <Filter>Core\Commands\JailPass</Filter>
+    </ClInclude>
+    <ClInclude Include="JailEscapeMenuCommand.h">
+      <Filter>Core\Commands\JailEscapeMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="PayJailFeeCommand.h">
+      <Filter>Core\Commands\PayJailFeeCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldValidation.h">
+      <Filter>Data\Fields\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="OwnedField.h">
+      <Filter>Data\Fields\OwnedField</Filter>
+    </ClInclude>
+    <ClInclude Include="PricedField.h">
+      <Filter>Data\Fields\PricedField</Filter>
+    </ClInclude>
+    <ClInclude Include="PricedFieldValidation.h">
+      <Filter>Data\Fields\PricedField</Filter>
+    </ClInclude>
+    <ClInclude Include="Railroad.h">
+      <Filter>Data\Fields\Railroad</Filter>
+    </ClInclude>
+    <ClInclude Include="RailroadConstants.h">
+      <Filter>Data\Fields\Railroad</Filter>
+    </ClInclude>
+    <ClInclude Include="BuyRailroadCommand.h">
+      <Filter>Core\Commands\BuyRailroad</Filter>
+    </ClInclude>
+    <ClInclude Include="SellRailroadCommand.h">
+      <Filter>Core\Commands\SellRailroad</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Data\Fields\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityConstants.h">
+      <Filter>Data\Fields\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="SellUtilityCommand.h">
+      <Filter>Core\Commands\SellUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="BuyUtilityCommand.h">
+      <Filter>Core\Commands\BuyUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="DeckType.h">
+      <Filter>Data\Deck</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomCard.hpp">
+      <Filter>Data\Cards\CustomCard</Filter>
+    </ClInclude>
+    <ClInclude Include="TextField.h">
+      <Filter>Data\Fields\TextField</Filter>
+    </ClInclude>
+    <ClInclude Include="TaxField.h">
+      <Filter>Data\Fields\TaxField</Filter>
+    </ClInclude>
+    <ClInclude Include="GiveUpCommand.h">
+      <Filter>Core\Commands\GiveUp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="monopoly-oop-su.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game_data.bin">
+      <Filter>Utils\StringHelpers</Filter>
+    </None>
   </ItemGroup>
 </Project>

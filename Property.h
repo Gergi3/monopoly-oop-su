@@ -1,33 +1,24 @@
 #pragma once
 #include "ColorGroup.h"
 #include "Field.h"
+#include "FieldType.h"
+#include "OwnedField.h"
+#include "PricedField.h"
 #include "String.h"
 #include "Tile.h"
 #include "Vector.hpp"
-#include <memory>
 
-class Player;
-
-class Property : public Field
+class Property : public OwnedField, public PricedField
 {
-	String name;
 	ColorGroup colorGroup;
-	int price;
 	int housePrice;
 	Vector<int> rentTable;
 	unsigned rentIndex;
-	Player* owner;
 
 public:
 	Property(const String& name, ColorGroup colorGroup, int price, int housePrice, Vector<int> rentTable);
 
 	FieldType getType() const override;
-
-	void setOwner(Player* owner);
-	Player* getOwner() const;
-
-	void setPrice(int price);
-	int getPrice() const;
 
 	void setHousePrice(int housePrice);
 	int getHousePrice() const;
@@ -35,9 +26,6 @@ public:
 
 	void setRentTable(Vector<int> rentTable);
 	int getRent() const;
-
-	void setName(const String& name);
-	const String& getName() const;
 
 	void increaseRentIndex();
 	void decreaseRentIndex();

@@ -7,7 +7,7 @@ enum class ColorGroup
 	Yellow = Color::Yellow,
 	Blue = Color::LightBlue,
 	Green = Color::LightGreen,
-	LightBlue = Color::LightAqua ,
+	LightBlue = Color::LightAqua,
 	Red = Color::LightRed,
 	Pink = Color::LightPurple,
 	LightYellow = Color::LightYellow

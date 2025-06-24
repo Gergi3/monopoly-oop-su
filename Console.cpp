@@ -97,7 +97,6 @@ Key Console::listenFor(Vector<Key> keys) const
 			{
 				enableConsoleEcho();
 				enableConsoleInputBuffer();
-				std::cout << counter;
 				return key;
 			}
 		}

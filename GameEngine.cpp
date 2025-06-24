@@ -1,12 +1,29 @@
+#include "Bank.h"
 #include "Board.h"
-#include "GameEngine.h"
-#include "MathHelpers.h"
 #include "BoardUtilities.h"
-#include "GameEngineConstants.h"
+#include "CardField.h"
+#include "Command.h"
+#include "CommandHandler.h"
+#include "CommandHandlerConstants.h"
+#include "Console.h"
+#include "Deck.h"
+#include "Die.h"
+#include "Field.h"
 #include "FieldType.h"
+#include "GameEngine.h"
+#include "GameEngineConstants.h"
+#include "Menu.h"
+#include "Player.h"
 #include "Property.h"
+#include "Renderer.h"
+#include "String.h"
+#include "TaxField.h"
+#include "Typedefs.h"
+#include "Vector.hpp"
 #include <ctime>
-#include <random>
+#include <fstream>
+#include <memory>
+#include <stdexcept>
 
 using namespace GameEngineConstants;
 
@@ -15,37 +32,53 @@ GameEngine::GameEngine(
 	Console& console,
 	Board& board,
 	Bank& bank,
+	Menu& menu,
+	Deck& communityDeck,
+	Deck& chanceDeck,
+	CommandHandler& commandHandler,
 	unsigned dieCount
 )
 	: renderer(renderer),
 	console(console),
 	board(board),
 	dice(Vector<Die>(dieCount)),
-	bank(bank)
+	bank(bank),
+	menu(menu),
+	communityDeck(communityDeck),
+	chanceDeck(chanceDeck),
+	commandHandler(commandHandler)
 {
-	initializeRandomSeed();
+	setRandomSeed();
 }
 
-void GameEngine::startGameLoop()
+void GameEngine::startGameLoop(bool readLastGame)
 {
+	if (readLastGame)
+	{
+		readGameState();
+	}
+
 	console.setupConsole();
-	renderer.drawBoard(board, getPlayerPointers());
-	initializePlayers();
+	if (!readLastGame)
+	{
+		renderer.drawBoard(board, getPlayers());
+		promptForPlayers();
+	}
 
 	console.clear();
-	renderer.drawBoard(board, getPlayerPointers());
-	renderer.drawPlayers(getPlayerPointers());
+	renderer.drawBoard(board, getPlayers());
+	renderer.drawPlayers(getPlayers());
 
-	gameplayTurnLoop();
+	turnLoop();
 }
 
-void GameEngine::initializeRandomSeed()
+void GameEngine::setRandomSeed()
 {
-	seed = static_cast<unsigned>(std::time(nullptr));
+	unsigned seed = static_cast<unsigned>(std::time(nullptr));
 	std::srand(seed);
 }
 
-void GameEngine::initializePlayers()
+void GameEngine::promptForPlayers()
 {
 	Options options;
 	for (size_t i = 2; i <= 6; i++)
@@ -53,72 +86,130 @@ void GameEngine::initializePlayers()
 		options.push_back({ i, String(i) + " Players" });
 	}
 
-	Option selected = promptOptionSelection(options, "Choose player count:");
+	Option selected = menu.selectOption(options, "Choose player count:");
 
 	for (size_t i = 1; i <= selected.key; i++)
 	{
-		// TODO: Add custom naming option
 		String playerName = String("P") + i;
-		players.push_back(std::make_unique<Player>(playerName, DEFAULT_STARTING_CASH, 0));
-
-		// TODO: REMOVE ONLY FOR TESTING
-		if (i == 1)
-		{
-			Property* prop1 = board.getPropertiesMutable()[0];
-			Property* prop2 = board.getPropertiesMutable()[1];
-
-			players[0].get()->buyProperty(*prop1, bank);
-			players[0].get()->buyProperty(*prop2, bank);
-		}
+		players.push_back(std::make_unique<Player>(playerName, STARTING_MONEY, 0));
 	}
 }
 
-void GameEngine::gameplayTurnLoop()
+void GameEngine::turnLoop()
 {
-	Vector<Player*> rawPlayers = getPlayerPointers();
-	size_t playerIndex = 0;
+	Vector<Player*> rawPlayers = getPlayers();
+
 	while (!isGameOver())
 	{
+		saveGameState();
+
 		if (playerIndex == rawPlayers.getSize())
 		{
 			playerIndex = 0;
 		}
 		Player& player = *rawPlayers[playerIndex];
 
-		displayMessagePrompt(player.getName() + "\'s turn:", "Roll dice!");
-		rollAllDiceFor(player);
+		if (player.isEliminated())
+		{
+			continue;
+		}
 
-		Field* field = board.getField(player.getBoardPos());
-		handleLandingEvent(player, field);
+		if (player.isInJail() && player.getTurnsInJailCount() >= TURNS_IN_JAIL_BEFORE_OUT_OPTIONS)
+		{
+			executePlayerCommand(commandHandler, CommandHandlerConstants::JAIL_ESCAPE_MENU, nullptr, player);
+		}
+
+		menu.showMessage(player.getName() + "\'s turn:", "Roll dice!");
+
+		bool areRepeated = rollDiceFor(player);
+		renderGameState();
+		if (areRepeated && repeatedRolls + 1 < ROLLS_BEFORE_JAIL && !player.isInJail())
+		{
+			menu.showMessage(REPEATED_MSG);
+			repeatedRolls++;
+		}
+		else if (areRepeated && repeatedRolls + 1 >= ROLLS_BEFORE_JAIL && !player.isInJail())
+		{
+			menu.showMessage(THREE_IN_A_ROW_MSG);
+			player.putInJail();
+			repeatedRolls = 0;
+			playerIndex++;
+			continue;
+		}
+		else if (areRepeated && player.isInJail())
+		{
+			menu.showMessage(JAIL_ESCAPE_MSG);
+			player.freeFromJail();
+		}
+		else if (!areRepeated && player.isInJail())
+		{
+			player.incrementTurnsInJail();
+			menu.showMessage(JAIL_ESCAPE_FAIL_MSG);
+			playerIndex++;
+			continue;
+		}
+
+		Field* field = nullptr;
+		while (true)
+		{
+			size_t oldPos = player.getBoardPos();
+			field = board.getField(player.getBoardPos());
+			handleLandingEvent(player, field);
+
+			if (oldPos == player.getBoardPos())
+			{
+				break;
+			}
+		}
 
 		while (true)
 		{
 			try
 			{
-				executePlayerCommand(DEFAULT_MENU, field, player);
+				executePlayerCommand(commandHandler, CommandHandlerConstants::DEFAULT_MENU, field, player);
 				break;
 			}
 			catch (std::invalid_argument& ex)
 			{
-				displayMessagePrompt(ex.what());
+				menu.showMessage(ex.what());
 			}
 			catch (std::logic_error& ex)
 			{
-				displayMessagePrompt(ex.what());
+				menu.showMessage(ex.what());
 			}
 		}
 
 		renderGameState();
-		playerIndex++;
+		if (!areRepeated)
+		{
+			playerIndex++;
+			repeatedRolls = 0;
+		}
+	}
+
+	console.clear();
+	bool hasWinner = false;
+	for (size_t i = 0; i < players.getSize(); i++)
+	{
+		if (!players[i]->isEliminated())
+		{
+			menu.showMessage("Game over! " + players[i]->getName() + " won!", "Yaay!");
+			hasWinner = true;
+		}
+	}
+	if (!hasWinner)
+	{
+		// shouldn't reach, but just incase
+		menu.showMessage("Game over! Nobody won, all players are bankrupt/eliminated!");
 	}
 }
 
 bool GameEngine::isGameOver() const
 {
 	size_t activePlayers = 0;
-	for (const auto& player : players)
+	for (size_t i = 0; i < players.getSize(); i++)
 	{
-		if (!player->isBankrupt())
+		if (!players[i]->isEliminated())
 		{
 			activePlayers++;
 		}
@@ -128,30 +219,44 @@ bool GameEngine::isGameOver() const
 
 void GameEngine::renderGameState() const
 {
-	renderer.drawBoard(board, getPlayerPointers());
+	renderer.drawBoard(board, getPlayers());
 	renderer.drawDiceCentered(dice);
-	renderer.drawPlayers(getPlayerPointers());
+	renderer.drawPlayers(getPlayers());
 }
 
-Vector<unsigned> GameEngine::rollAllDiceFor(Player& player) const
+bool GameEngine::rollDiceFor(Player& player) const
 {
+	bool areRepeated = true;
 	unsigned rolled = 0;
-	Vector<unsigned> rolls = Vector<unsigned>(dice.getSize());
+	unsigned lastRoll = 0;
 	for (size_t i = 0; i < dice.getSize(); i++)
 	{
 		unsigned currentRoll = dice[i].roll();
+
+		if (i != 0 && currentRoll != lastRoll)
+		{
+			areRepeated = false;
+		}
+
 		rolled += currentRoll;
-		rolls[i] = currentRoll;
+		lastRoll = currentRoll;
 	}
+	player.setDiceRoll(rolled);
 
-	if (!player.isBankrupt())
+	if (!player.isInJail() || (player.isInJail() && areRepeated))
 	{
-		size_t newPos = (player.getBoardPos() + rolled) % BoardUtilities::ALL_FIELDS;
+		size_t oldPos = player.getBoardPos();
+		size_t newPos = (oldPos + rolled) % BoardUtilities::ALL_FIELDS;
 		player.setBoardPos(newPos);
-		return rolls;
+		if (newPos < oldPos)
+		{
+			bank.giveMoney(player, STEP_ON_START_MONEY);
+			renderGameState();
+			menu.showMessage(PASS_START_MSG);
+		}
 	}
 
-	return rolls;
+	return areRepeated;
 }
 
 void GameEngine::handleLandingEvent(Player& player, Field* field)
@@ -163,235 +268,209 @@ void GameEngine::handleLandingEvent(Player& player, Field* field)
 
 	switch (field->getType())
 	{
+		case FieldType::Utility:
+		case FieldType::Railroad:
 		case FieldType::Property:
 		{
-			Property& property = dynamic_cast<Property&>(*field);
-			if (property.getOwner() && property.getOwner() != &player)
+			OwnedField& asOwned = dynamic_cast<OwnedField&>(*field);
+			PricedField& asPriced = dynamic_cast<PricedField&>(*field);
+			if (asOwned.getOwner() && asOwned.getOwner() != &player)
 			{
-				player.payRentTo(property, bank);
+				player.payRentTo(asOwned, bank);
 				renderGameState();
 
 				String msg = String("You (") + player.getName() + ") just payed "
-					+ property.getRent() + "$ for rent to " + property.getOwner()->getName();
-				displayMessagePrompt(msg);
+					+ asPriced.getRent() + "$ for rent to " + asOwned.getOwner()->getName();
+				menu.showMessage(msg);
 			}
+			break;
+		}
+		case FieldType::CardField:
+		{
+			CardField& asCardField = dynamic_cast<CardField&>(*field);
+			menu.showMessage("You stepped on " + asCardField.getName(), "Draw a card!");
+
+			const Card* card = asCardField.getDeck().drawCard();
+			card->applyEffect(player);
+
+			renderGameState();
+			menu.showMessage("You got: " + card->getName());
+			break;
+		}
+		case FieldType::TextField:
+		{
+			if (player.getBoardPos() == GameEngineConstants::JAIL_POS)
+			{
+				player.putInJail();
+				renderGameState();
+				menu.showMessage("You got jailed for walking by the police station!");
+			}
+			break;
+		}
+		case FieldType::TaxField:
+		{
+			TaxField& taxField = dynamic_cast<TaxField&>(*field);
+			bank.takeMoney(player, taxField.getTax());
+			renderGameState();
+			menu.showMessage(String("You payed taxes! (-") + taxField.getTax() + "$)");
+			break;
 		}
 	}
 }
 
-void GameEngine::executePlayerCommand(const Option& option, Field* field, Player& player)
+void GameEngine::saveGameState()
+{
+	std::ofstream ofs(GAME_FILENAME.c_str(), std::ios::binary);
+	ofs.write((const char*)&playerIndex, sizeof(playerIndex));
+	ofs.write((const char*)&repeatedRolls, sizeof(repeatedRolls));
+	size_t playersSize = players.getSize();
+	ofs.write((const char*)&playersSize, sizeof(playersSize));
+
+	for (size_t i = 0; i < players.getSize(); i++)
+	{
+		players[i]->serialize(ofs);
+	}
+
+	ofs.close();
+}
+
+void GameEngine::readGameState()
+{
+	std::ifstream ifs(GAME_FILENAME.c_str(), std::ios::binary);
+	ifs.read((char*)&playerIndex, sizeof(playerIndex));
+	ifs.read((char*)&repeatedRolls, sizeof(repeatedRolls));
+	size_t playersSize = 0;
+	ifs.read((char*)&playersSize, sizeof(playersSize));
+
+	for (size_t i = 0; i < playersSize; i++)
+	{
+		std::unique_ptr<Player> player = std::make_unique<Player>();
+		player->deserialize(ifs, board);
+		players.push_back(std::move(player));
+	}
+}
+
+void GameEngine::executePlayerCommand(
+	CommandHandler& handler,
+	const Option& option,
+	Field* field,
+	Player& player)
 {
 	renderGameState();
 
-	if (option == END_TURN)
+	Command* command = handler.createCommand(option);
+	if (!command)
 	{
 		return;
 	}
-	else if (option == BUY_PROPERTY && field)
+
+	try
 	{
-		executeBuyProperty(field, player);
+		command->execute(*this, field, player);
 	}
-	else if (option == SELL_PROPERTY)
+	catch (...)
 	{
-		executeSellProperty(field, player);
-	}
-	else if (option == BUILD_HOUSE)
-	{
-		executeBuildHouse(field, player);
-	}
-	else if (option == DEMOLISH_HOUSE)
-	{
-		executeDemolishHouse(field, player);
-	}
-	else if (option == DEFAULT_MENU)
-	{
-		executeDefaultMenu(field, player);
+		delete command;
+		throw;
 	}
 }
 
-void GameEngine::executeBuyProperty(Field* field, Player& player)
+Vector<Player*> GameEngine::getPlayers()
 {
-	Property& property = dynamic_cast<Property&>(*field);
-	player.buyProperty(property, bank);
-}
-
-void GameEngine::executeSellProperty(Field* field, Player& player)
-{
-	MutableProperties& ownedProps = player.getOwnedProperties();
-	if (ownedProps.getSize() == 0)
-	{
-		throw std::logic_error("You don’t own any properties to sell.");
-	}
-
-	Vector<Player*> playersRaw = getPlayerPointers();
-
-	Options propertyOptions = generateOptionsFrom(ownedProps, [](Property* p) { return p->getName(); });
-	Options playerOptions = generateOptionsFrom(playersRaw, [](Player* p) { return p->getName(); })
-		.filterBy([player](Option opt) { return opt.value != player.getName(); });
-
-	String optionTitle = player.getName() + "\'s owned properties to sell:";
-	Option selectedProperty = promptOptionSelection(propertyOptions, optionTitle);
-
-	String playerTitle = String("Select player to sell ") + selectedProperty.value + " to:";
-	Option selectedPlayer = promptOptionSelection(playerOptions, playerTitle);
-
-	Player& buyer = *playersRaw[selectedPlayer.key];
-	Property& propToSell = *ownedProps[selectedProperty.key];
-	unsigned price = promptPriceSelection("Choose a price to sell " + selectedProperty.value + " for:");
-
-	player.ensureCanSellPropertyTo(propToSell, buyer, price, board.getProperties());
-
-	Options buyerOptions;
-	buyerOptions.push_back(ACCEPT_DEAL);
-	buyerOptions.push_back(REJECT_DEAL);
-	Option selected = promptOptionSelection(buyerOptions, player.getName() + " offers you (" + buyer.getName()
-		+ ") his property (" + propToSell.getName() + ") for " + price + "!");
-
-	if (selected == ACCEPT_DEAL)
-	{
-		player.sellPropertyTo(propToSell, buyer, price, board.getProperties(), bank);
-		renderGameState();
-		String successMessage = String("Successfully sold ") + propToSell.getName()
-			+ " to " + buyer.getName() + " for $" + price + "!";
-		displayMessagePrompt(successMessage);
-	}
-	else if (selected == REJECT_DEAL)
-	{
-		displayMessagePrompt("Your offer was rejected!");
-	}
-}
-
-void GameEngine::executeBuildHouse(Field* field, Player& player)
-{
-	MutableProperties& ownedProps = player.getOwnedProperties();
-	if (ownedProps.getSize() == 0)
-	{
-		throw std::logic_error("No properties to build houses on!");
-	}
-
-	Options propertyOptions = generateOptionsFrom(
-		ownedProps,
-		[](Property* p) { return p->getName() + " (-$" + p->getHousePrice() + ")"; });
-
-	Option selected = promptOptionSelection(propertyOptions, player.getName() + "\'s owned properties to build house on:");
-
-	player.buildHouseOn(*ownedProps[selected.key], board.getProperties(), bank);
-}
-
-void GameEngine::executeDemolishHouse(Field* field, Player& player)
-{
-	MutableProperties& ownedProps = player.getOwnedProperties();
-	if (ownedProps.getSize() == 0)
-	{
-		throw std::logic_error("No properties to demolish houses on!");
-	}
-
-	Options propertyOptions = generateOptionsFrom(
-		ownedProps,
-		[](Property* p) { return p->getName() + " (+$" + p->getHouseSellPrice() + ")"; });
-
-	Option selected = promptOptionSelection(propertyOptions, player.getName() + "\'s owned properties to demolish a house from:");
-
-	player.demolishHouseOn(*ownedProps[selected.key], bank);
-}
-
-void GameEngine::executeDefaultMenu(Field* field, Player& player)
-{
-	Options options;
-
-	options.push_back(END_TURN);
-
-	options.push_back(SELL_PROPERTY);
-	options.push_back(BUILD_HOUSE);
-	options.push_back(DEMOLISH_HOUSE);
-
-	if (field && field->getType() == FieldType::Property)
-	{
-		Property& property = dynamic_cast<Property&>(*field);
-
-		if (!property.getOwner())
-		{
-			options.insert(1, BUY_PROPERTY);
-		}
-	}
-
-	Option selected = promptOptionSelection(options, player.getName() + "\'s turn:");
-	executePlayerCommand(selected, field, player);
-	if (selected != END_TURN)
-	{
-		executePlayerCommand(DEFAULT_MENU, field, player);
-	}
-}
-
-Option GameEngine::promptOptionSelection(const Options& options, const String& title)
-{
-	Vector<Key> keys;
-	keys.push_back(Key::UP);
-	keys.push_back(Key::DOWN);
-	keys.push_back(Key::ENTER);
-
-	size_t selected = 0;
-
-	while (true)
-	{
-		renderer.drawPromptMenu(options, title, selected);
-
-		Key keyPressed = console.listenFor(keys);
-		switch (keyPressed)
-		{
-			case Key::UP:
-				selected = (selected - 1 + options.getSize()) % options.getSize();
-				break;
-			case Key::DOWN:
-				selected = (selected + 1) % options.getSize();
-				break;
-			case Key::ENTER:
-				return options[selected];
-				break;
-		}
-	}
-}
-
-unsigned GameEngine::promptPriceSelection(const String& title, unsigned currentPrice, unsigned increment, unsigned min, unsigned max)
-{
-	Vector<Key> keys;
-	keys.push_back(Key::UP);
-	keys.push_back(Key::DOWN);
-	keys.push_back(Key::ENTER);
-
-	while (true)
-	{
-		renderer.drawNumberPromptMenu(currentPrice, title);
-
-		Key keyPressed = console.listenFor(keys);
-		switch (keyPressed)
-		{
-			case Key::UP:
-				currentPrice += increment;
-				break;
-			case Key::DOWN:
-				currentPrice -= currentPrice > increment + min ? increment : min;
-				break;
-			case Key::ENTER:
-				return currentPrice;
-				break;
-		}
-	}
-}
-
-void GameEngine::displayMessagePrompt(const String& title, const String& backOption)
-{
-	Options options;
-	options.push_back({ 99999, backOption });
-	promptOptionSelection(options, title);
-}
-
-Vector<Player*> GameEngine::getPlayerPointers() const
-{
-	Vector<Player*> rawPlayers = Vector<Player*>(players.getSize(), nullptr);
+	Vector<Player*> players(this->players.getSize(), nullptr);
 	for (size_t i = 0; i < players.getSize(); i++)
 	{
-		rawPlayers[i] = players[i].get();
+		players[i] = this->players[i].get();
 	}
-	return rawPlayers;
+	return players;
+}
+
+const Vector<Player*> GameEngine::getPlayers() const
+{
+	Vector<Player*> players(this->players.getSize(), nullptr);
+	for (size_t i = 0; i < players.getSize(); i++)
+	{
+		players[i] = this->players[i].get();
+	}
+	return players;
+}
+
+Renderer& GameEngine::getRenderer()
+{
+	return renderer;
+}
+
+const Renderer& GameEngine::getRenderer() const
+{
+	return renderer;
+}
+
+Console& GameEngine::getConsole()
+{
+	return console;
+}
+
+const Console& GameEngine::getConsole() const
+{
+	return console;
+}
+
+Board& GameEngine::getBoard()
+{
+	return board;
+}
+
+const Board& GameEngine::getBoard() const
+{
+	return board;
+}
+
+Bank& GameEngine::getBank()
+{
+	return bank;
+}
+
+const Bank& GameEngine::getBank() const
+{
+	return bank;
+}
+
+Menu& GameEngine::getMenu()
+{
+	return menu;
+}
+
+const Menu& GameEngine::getMenu() const
+{
+	return menu;
+}
+
+CommandHandler& GameEngine::getCommandHandler()
+{
+	return commandHandler;
+}
+
+const CommandHandler& GameEngine::getCommandHandler() const
+{
+	return commandHandler;
+}
+
+Deck& GameEngine::getCommunityDeck()
+{
+	return communityDeck;
+}
+
+const Deck& GameEngine::getCommunityDeck() const
+{
+	return communityDeck;
+}
+
+Deck& GameEngine::getChanceDeck()
+{
+	return chanceDeck;
+}
+
+const Deck& GameEngine::getChanceDeck() const
+{
+	return chanceDeck;
 }

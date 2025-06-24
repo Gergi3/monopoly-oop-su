@@ -4,10 +4,14 @@
 
 class MovePositionCard : public Card
 {
+protected:
 	MovePositionType type;
-	unsigned spaces;
-public:
-	MovePositionCard(const String& name, MovePositionType type, unsigned spaces);
-	void applyEffect(Player& player) const override;
-};
+	mutable size_t spaces;
 
+public:
+	MovePositionCard(const String& name, MovePositionType type, size_t spaces);
+	virtual ~MovePositionCard() = default;
+
+	void applyEffect(Player& player) const override;
+	Card* clone() const override;
+};

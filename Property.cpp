@@ -1,45 +1,21 @@
 #include "Color.h"
 #include "ColorGroup.h"
+#include "FieldType.h"
+#include "OwnedField.h"
 #include "Player.h"
+#include "PricedField.h"
 #include "Property.h"
-#include "PropertyConstants.h"
 #include "PropertyValidation.h"
-#include "StringHelpers.h"
+#include "String.h"
 #include "Tile.h"
 #include "Vector.hpp"
+#include <stdexcept>
 
 Property::Property(const String& name, ColorGroup colorGroup, int price, int housePrice, Vector<int> rentTable)
+	: Field(name), PricedField(name, price),  OwnedField(name), colorGroup(colorGroup)
 {
-	setName(name);
-	this->colorGroup = colorGroup;
-	setPrice(price);
 	setHousePrice(housePrice);
 	setRentTable(rentTable);
-}
-
-void Property::setOwner(Player* owner)
-{
-	this->owner = owner;
-}
-
-Player* Property::getOwner() const
-{
-	return owner;
-}
-
-void Property::setPrice(int price)
-{
-	if (!PropertyValidation::isValidPrice(price))
-	{
-		throw std::invalid_argument(PropertyValidation::PRICE_ERR.c_str());
-	}
-
-	this->price = price;
-}
-
-int Property::getPrice() const
-{
-	return price;
 }
 
 void Property::setHousePrice(int housePrice)
@@ -83,20 +59,7 @@ int Property::getRent() const
 	return rentTable[rentIndex];
 }
 
-void Property::setName(const String& name)
-{
-	if (!PropertyValidation::isValidName(name))
-	{
-		throw std::invalid_argument(PropertyValidation::NAME_ERR.c_str());
-	}
 
-	this->name = name;
-}
-
-const String& Property::getName() const
-{
-	return name;
-}
 
 void Property::increaseRentIndex()
 {

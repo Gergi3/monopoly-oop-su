@@ -1,11 +1,20 @@
 #pragma once
 #include "FieldType.h"
-#include "ITileable.h"
+#include "String.h"
+#include "Tileable.h"
 
-class Field : public ITileable
+class Field : public Tileable
 {
+protected:
+	String name;
+
 public:
+	Field(const String& name);
 	virtual ~Field() = default;
+
+	void setName(const String& name);
+	const String& getName() const;
+
 	virtual FieldType getType() const = 0;
 };
 

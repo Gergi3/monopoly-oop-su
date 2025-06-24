@@ -1,5 +1,4 @@
 #pragma once
-#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
 #include <utility> // std::move
@@ -23,6 +22,7 @@ public:
 	Vector();
 	Vector(size_t size);
 	Vector(size_t size, const T& rhs);
+	Vector(const T* data, size_t n);
 	Vector(const Vector<T>& other);
 	Vector(Vector<T>&& other) noexcept;
 	Vector<T>& operator=(const Vector<T>& other);

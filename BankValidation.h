@@ -9,6 +9,6 @@ namespace BankValidation
 
 	inline bool isValidAmount(int amount)
 	{
-		return amount > 0;
+		return amount > MIN_AMOUNT;
 	}
 }

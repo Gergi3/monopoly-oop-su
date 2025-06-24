@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "TileConstants.h"
 #include "Vector.hpp"
+#include <stdexcept>
 
 using namespace TileConstants;
 
