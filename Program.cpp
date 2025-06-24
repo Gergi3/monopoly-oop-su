@@ -11,7 +11,7 @@ int main()
 {
 	Option NEW_GAME = { 0, "Start New Game" };
 	Option CONTINUE = { 1, "Continue Last Game" };
-	Option EXIT = { 2, "EXIT" };
+	Option EXIT = { 2, "Exit" };
 
 	Console* console = new Console();
 	Renderer* renderer = new Renderer(*console);
@@ -53,6 +53,9 @@ int main()
 	delete bank;
 	delete menu;
 	delete console;
+	delete communityDeck;
+	delete chanceDeck;
+	delete commandHandler;
 	delete gameEngine;
 
 	return 0;

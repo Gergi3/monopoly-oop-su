@@ -110,23 +110,40 @@ void SellPropertyCommand::handleApproval(GameEngine& engine, Menu& menu, Player&
 void SellPropertyCommand::execute(GameEngine& engine, Field* field, Player& seller)
 {
 	Menu& menu = engine.getMenu();
+	
+	Property& propToSell = askForProp(menu, seller);
+	
+	Options options;
+	options.push_back(TO_BANK);
+	options.push_back(TO_PLAYER);
+	Option selected = menu.selectOption(options, "To who do you want to sell?");
+
 	Board& board = engine.getBoard();
 	Vector<Player*> players = engine.getPlayers();
 
-	Property& propToSell = askForProp(menu, seller);
-	Player& buyer = askForPlayer(menu, propToSell, seller, players);
-	unsigned price = askForPrice(menu, propToSell);
-
-	seller.ensureCanSellPropertyTo(propToSell, buyer, price, board.getProperties());
-
-	bool isApproved = askBuyerForApproval(menu, seller, buyer, propToSell, price);
-	if (!isApproved)
+	if (selected == TO_BANK)
 	{
-		handleRejection(menu);
+		seller.sellPropToBank(propToSell, board.getProperties(), engine.getBank());
+		engine.renderGameState();
+		menu.showMessage("Property successfully sold!");
 		return;
 	}
+	else if (selected == TO_PLAYER)
+	{
+		Player& buyer = askForPlayer(menu, propToSell, seller, players);
+		unsigned price = askForPrice(menu, propToSell);
 
-	handleApproval(engine, menu, seller, buyer, propToSell, price);
+		seller.ensureCanSellPropertyTo(propToSell, buyer, price, board.getProperties());
+
+		bool isApproved = askBuyerForApproval(menu, seller, buyer, propToSell, price);
+		if (!isApproved)
+		{
+			handleRejection(menu);
+			return;
+		}
+
+		handleApproval(engine, menu, seller, buyer, propToSell, price);
+	}
 }
 
 Command* SellPropertyCommand::clone() const

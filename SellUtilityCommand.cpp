@@ -114,19 +114,36 @@ void SellUtilityCommand::execute(GameEngine& engine, Field* field, Player& selle
 	Vector<Player*> players = engine.getPlayers();
 
 	Utility& utilityToSell = askForUtility(menu, seller);
-	Player& buyer = askForPlayer(menu, utilityToSell, seller, players);
-	unsigned price = askForPrice(menu, utilityToSell);
 
-	seller.ensureCanSellUtilityTo(utilityToSell, buyer, price);
+	Options options;
+	options.push_back(TO_BANK);
+	options.push_back(TO_PLAYER);
+	Option selected = menu.selectOption(options, "To who do you want to sell?");
 
-	bool isApproved = askBuyerForApproval(menu, seller, buyer, utilityToSell, price);
-	if (!isApproved)
+	if (selected == TO_BANK)
 	{
-		handleRejection(menu);
+		seller.sellUtilityToBank(utilityToSell, engine.getBank());
+		engine.renderGameState();
+		menu.showMessage("Utility successfully sold!");
 		return;
 	}
+	else if (selected == TO_PLAYER)
+	{
+		Player& buyer = askForPlayer(menu, utilityToSell, seller, players);
+		unsigned price = askForPrice(menu, utilityToSell);
 
-	handleApproval(engine, menu, seller, buyer, utilityToSell, price);
+		seller.ensureCanSellUtilityTo(utilityToSell, buyer, price);
+
+		bool isApproved = askBuyerForApproval(menu, seller, buyer, utilityToSell, price);
+		if (!isApproved)
+		{
+			handleRejection(menu);
+			return;
+		}
+
+		handleApproval(engine, menu, seller, buyer, utilityToSell, price);
+	}
+
 }
 
 Command* SellUtilityCommand::clone() const

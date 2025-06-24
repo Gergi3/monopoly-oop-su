@@ -114,19 +114,35 @@ void SellRailroadCommand::execute(GameEngine& engine, Field* field, Player& sell
 	Vector<Player*> players = engine.getPlayers();
 
 	Railroad& railroadToSell = askForRailroad(menu, seller);
-	Player& buyer = askForPlayer(menu, railroadToSell, seller, players);
-	unsigned price = askForPrice(menu, railroadToSell);
 
-	seller.ensureCanSellRailroadTo(railroadToSell, buyer, price);
+	Options options;
+	options.push_back(TO_BANK);
+	options.push_back(TO_PLAYER);
+	Option selected = menu.selectOption(options, "To who do you want to sell?");
 
-	bool isApproved = askBuyerForApproval(menu, seller, buyer, railroadToSell, price);
-	if (!isApproved)
+	if (selected == TO_BANK)
 	{
-		handleRejection(menu);
+		seller.sellRailroadToBank(railroadToSell, engine.getBank());
+		engine.renderGameState();
+		menu.showMessage("Railroad successfully sold!");
 		return;
 	}
+	else if (selected == TO_PLAYER)
+	{
+		Player& buyer = askForPlayer(menu, railroadToSell, seller, players);
+		unsigned price = askForPrice(menu, railroadToSell);
 
-	handleApproval(engine, menu, seller, buyer, railroadToSell, price);
+		seller.ensureCanSellRailroadTo(railroadToSell, buyer, price);
+
+		bool isApproved = askBuyerForApproval(menu, seller, buyer, railroadToSell, price);
+		if (!isApproved)
+		{
+			handleRejection(menu);
+			return;
+		}
+
+		handleApproval(engine, menu, seller, buyer, railroadToSell, price);
+	}
 }
 
 Command* SellRailroadCommand::clone() const

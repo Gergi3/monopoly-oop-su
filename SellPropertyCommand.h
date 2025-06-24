@@ -13,6 +13,8 @@ class SellPropertyCommand : public Command
 {
 	const Option ACCEPT_DEAL = { 1, "Accept deal!" };
 	const Option REJECT_DEAL = { 2, "Reject deal!" };
+	const Option TO_BANK = { 3, "To bank. (for half price)" };
+	const Option TO_PLAYER = { 4, "To player." };
 
 	static String getSuccessMessage(Property& propToSell, Player& buyer, unsigned price);
 	static String getApprovalTitle(Player& seller, Player& buyer, Property& propToSell, unsigned price);

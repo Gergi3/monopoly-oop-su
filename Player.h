@@ -85,12 +85,13 @@ public:
 	void buyField(Field& field, const Bank& bank);
 	void payRentTo(const Field& field, const Bank& bank);
 	
-	void buyUtility(Utility& railroad, const Bank& bank);
-	void sellUtilityTo(Utility& railroad, Player& buyer, int price, Bank& bank);
+	void buyUtility(Utility& utility, const Bank& bank);
+	void sellUtilityTo(Utility& utility, Player& buyer, int price, Bank& bank);
 	void ensureCanSellUtilityTo(
-		Utility& railroad,
+		Utility& utility,
 		Player& buyer,
 		int price);
+	void sellUtilityToBank(Utility& utility, Bank& bank);
 
 	void buyRailroad(Railroad& railroad, const Bank& bank);
 	void sellRailroadTo(Railroad& railroad, Player& buyer, int price, Bank& bank);
@@ -98,6 +99,7 @@ public:
 		Railroad& railroad,
 		Player& buyer,
 		int price);
+	void sellRailroadToBank(Railroad& railroad, const Bank& bank);
 
 	void buildHouseOn(Property& property, const Properties& gameProperties, const Bank& bank);
 	void demolishHouseOn(Property& property, const Bank& bank);
@@ -113,6 +115,9 @@ public:
 		int price,
 		const Properties& gameProperties,
 		const Bank& bank);
+
+	bool ensureCanSellPropToBank(Property& property, const Properties& gameProperties) const;
+	void sellPropToBank(Property& property, const Properties& gameProperties, const Bank& bank);
 
 	void serialize(std::ostream& os) const;
 	void deserialize(std::istream& is, Board& board);

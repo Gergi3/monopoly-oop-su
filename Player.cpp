@@ -360,6 +360,15 @@ void Player::ensureCanSellUtilityTo(Utility& utility, Player& buyer, int price)
 	}
 }
 
+void Player::sellUtilityToBank(Utility& utility, Bank& bank)
+{
+	ensureIsOwnerOf(utility);
+
+	bank.giveMoney(*this, utility.getPrice() / 2);
+	utility.setOwner(nullptr);
+	ownedUtilities.remove(&utility);
+}
+
 void Player::buyRailroad(Railroad& railroad, const Bank& bank)
 {
 	if (railroad.getOwner())
@@ -398,6 +407,15 @@ void Player::ensureCanSellRailroadTo(Railroad& railroad, Player& buyer, int pric
 	{
 		throw std::logic_error(INSUFFICIENT_RAILROAD_BUYER_MONEY_ERR);
 	}
+}
+
+void Player::sellRailroadToBank(Railroad& railroad, const Bank& bank)
+{
+	ensureIsOwnerOf(railroad);
+
+	bank.giveMoney(*this, railroad.getPrice() / 2);
+	railroad.setOwner(nullptr);
+	ownedRailroads.remove(&railroad);
 }
 
 bool Player::hasFullColorGroup(
@@ -480,6 +498,27 @@ void Player::sellPropertyTo(
 
 	bank.transfer(buyer, *this, price);
 	transferPropertyOwnership(property, buyer);
+}
+
+bool Player::ensureCanSellPropToBank(Property& property, const Properties& gameProperties) const
+{
+	ensureIsOwnerOf(property);
+
+	if (colorGroupHasHouses(property.getColorGroup(), gameProperties))
+	{
+		throw std::logic_error(PROPERTY_SELL_WHILE_HOUSES_PRESENT_ERR);
+	}
+
+	return true;
+}
+
+void Player::sellPropToBank(Property& property, const Properties& gameProperties, const Bank& bank)
+{
+	ensureCanSellPropToBank(property, gameProperties);
+
+	bank.giveMoney(*this, property.getPrice() / 2);
+	property.setOwner(nullptr);
+	ownedProperties.remove(&property);
 }
 
 void Player::buildHouseOn(
